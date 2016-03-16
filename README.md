@@ -51,6 +51,8 @@ $ schemas show Identity
 - sameAs
 - url
 
+    data[0]['identities']
+
 (schema.org) Thing > Quantity > Value
 - additionalType
 - alternateName
@@ -61,6 +63,8 @@ $ schemas show Identity
 - potentialAction
 - sameAs
 - url
+
+    data[0]['values']
 
 (schema.org) Thing > Quantity > Object
 - additionalType
@@ -73,6 +77,8 @@ $ schemas show Identity
 - sameAs
 - url
 
+    data[0]['objects']
+
 (schema.org) Thing > Quantity > Assertion
 - additionalType
 - alternateName
@@ -83,6 +89,8 @@ $ schemas show Identity
 - potentialAction
 - sameAs
 - url
+
+    data[0]['assertions']
 
 (schema.org) Thing > Quantity > Datum
 - additionalType
@@ -95,8 +103,10 @@ $ schemas show Identity
 - sameAs
 - url
 
-$ schemas add http://amazingwebsite.com/newschema
-(amazingwebsite.com) NewSchema
+    data[0]['data']
+
+$ schemas add http://www.iana.org/assignments/media-types/application/vnd.api+json
+(www.iana.org) NewSchema
 
 $ schemas generate Assertion --mysql
 // Helper to generate tables?
