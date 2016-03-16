@@ -1,6 +1,6 @@
 # Schemas
 
-Javascript library and command-line tool to rock Schemas
+Javascript library and command-line tool to rock Schemas.
 
 ### work in progress
 
@@ -38,20 +38,68 @@ $ schemas search T
 (schema.org) Text
 (schema.org) Time
 
-$ schemas show Book
-(schema.org) Thing > CreativeWork > Book
-- bookEdition
-- bookFormat
-- illustrator
-- isbn
-- numberOfPages
+$ schemas show Identity
+
+(schema.org) Thing > Quantity > Identity
+- additionalType
+- alternateName
+- description
+- image
+- mainEntityOfPage
+- name
+- potentialAction
+- sameAs
+- url
+
+(schema.org) Thing > Quantity > Value
+- additionalType
+- alternateName
+- description
+- image
+- mainEntityOfPage
+- name
+- potentialAction
+- sameAs
+- url
+
+(schema.org) Thing > Quantity > Object
+- additionalType
+- alternateName
+- description
+- image
+- mainEntityOfPage
+- name
+- potentialAction
+- sameAs
+- url
+
+(schema.org) Thing > Quantity > Assertion
+- additionalType
+- alternateName
+- description
+- image
+- mainEntityOfPage
+- name
+- potentialAction
+- sameAs
+- url
+
+(schema.org) Thing > Quantity > Datum
+- additionalType
+- alternateName
+- description
+- image
+- mainEntityOfPage
+- name
+- potentialAction
+- sameAs
+- url
 
 $ schemas add http://amazingwebsite.com/newschema
 (amazingwebsite.com) NewSchema
 
-$ schemas generate Book --mysql
+$ schemas generate Assertion --mysql
 // Helper to generate tables?
-
 ```
 
 ## Ideal usage as a library
@@ -73,3 +121,11 @@ var station2 = new schemaorg.TrainTrip({
   arrivalStation:station2
 })
 ```
+
+## Future goals
+
+    $ cliprogram [WebPage] /with/ [breadcrumb] (and) [AboutPage]
+
+Sentential operations can be expressed in Openchain’s [Alias][0] scheme.
+
+[0]: https://docs.openchain.org/en/latest/ledger-rules/general.html#aliases-aka-name
