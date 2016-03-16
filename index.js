@@ -41,6 +41,7 @@ function retrieve (config) {
     if (!error && response.statusCode == 200) {
       var $ = cheerio.load(html);
       var parsedResults = [];
+
       $('a[property="rdfs:subClassOf"]').each(function(i, element){
         var a = $(this);
         var rdfsSubclassOf = a.parent().parent();
