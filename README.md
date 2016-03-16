@@ -38,7 +38,7 @@ $ schemas search T
 (schema.org) Text
 (schema.org) Time
 
-$ schemas show Identity
+$ schemas show Identity # See interchangeability in HTML5 semantics: https://schema.org/author
 
 (schema.org) Thing > Quantity > Identity
 - additionalType
