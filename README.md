@@ -40,7 +40,7 @@ $ schemas search T
 
 $ schemas show Identity # See interchangeability in HTML5 semantics: https://schema.org/author
 
-(schema.org) Thing > Quantity > Identity
+(schema.org) Thing > Quantity > Identity # ids
 - additionalType
 - alternateName
 - description
@@ -53,7 +53,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['identities']
 
-(schema.org) Thing > Quantity > Value
+(schema.org) Thing > Quantity > Value # dev
 - additionalType
 - alternateName
 - description
@@ -66,7 +66,20 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['values']
 
-(schema.org) Thing > Quantity > Object
+(schema.org) Thing > Quantity > Gidouille # guid
+- additionalType
+- alternateName
+- description
+- image
+- mainEntityOfPage
+- name
+- potentialAction
+- sameAs
+- url
+
+    data[0]['guids']
+
+(schema.org) Thing > Quantity > Object # syz
 - additionalType
 - alternateName
 - description
@@ -79,7 +92,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['objects']
 
-(schema.org) Thing > Quantity > Assertion
+(schema.org) Thing > Quantity > Assertion # pata http://www.pataphor.com/whatisapataphor.html#ex1
 - additionalType
 - alternateName
 - description
@@ -92,7 +105,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['assertions']
 
-(schema.org) Thing > Quantity > Datum
+(schema.org) Thing > Quantity > Datum # anom
 - additionalType
 - alternateName
 - description
