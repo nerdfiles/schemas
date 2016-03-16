@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/nicola/schemas",
   "dependencies": {
+    "cheerio": "^0.20.0",
     "nomnom": "^1.8.1",
     "request": "^2.48.0"
   },

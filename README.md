@@ -16,7 +16,23 @@ This library simplifying searching and querying different data schemas proving a
 $ npm install -g schemas
 ```
 
-## Ideal usage
+## Actual usage as a CLI tool
+
+```
+$ schemas search Music
+[ { rdfsClass: 'MusicPlaylist',
+    rdfsComment: '',
+    rdfsSubClassOf: { title: 'CreativeWork', url: 'http://schema.org/CreativeWork' } },
+  { rdfsClass: 'MusicAlbum',
+    rdfsComment: '',
+    rdfsSubClassOf: 
+     { title: 'MusicPlaylist',
+       url: 'http://schema.org/MusicPlaylist' } },
+  ...
+]
+```
+
+## Ideal usage as a CLI tool
 ```bash 
 $ schemas search T
 (schema.org) Text
