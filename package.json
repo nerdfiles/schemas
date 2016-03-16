@@ -1,14 +1,14 @@
 {
   "name": "schemas",
-  "version": "1.0.0",
-  "description": "Nodejs library and command-line tool for Linked-Data and Schemas",
+  "version": "0.0.1",
+  "description": "Nodejs library and command-line tool for Linked-Data and Schemas.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicola/schemas"
+    "url": "https://github.com/nerdfiles/schemas"
   },
   "keywords": [
     "Schema.org",
@@ -16,14 +16,16 @@
     "linked",
     "data",
     "semantic",
-    "web"
+    "web",
+    "weboftrust",
+    "hypermedia"
   ],
-  "author": "Nicola Greco <me@nicola.io> (http://nicolagreco.com/)",
+  "author": "nerdfiles <hello@nerdfiles.net> (http://nerdfiles.net/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nicola/schemas/issues"
+    "url": "https://github.com/nerdfiles/schemas/issues"
   },
-  "homepage": "https://github.com/nicola/schemas",
+  "homepage": "https://github.com/nerdfiles/schemas",
   "dependencies": {
     "cheerio": "^0.20.0",
     "nomnom": "^1.8.1",
