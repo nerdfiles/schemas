@@ -40,7 +40,7 @@ $ schemas search T
 
 $ schemas show Identity # See interchangeability in HTML5 semantics: https://schema.org/author
 
-(schema.org) Thing > Quantity > Identity # ids
+(schema.org) Class > Identity # ids
 - additionalType
 - alternateName
 - description
@@ -53,7 +53,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['identities']
 
-(schema.org) Thing > Quantity > Value # dev
+(schema.org) Class > Value # dev
 - additionalType
 - alternateName
 - description
@@ -66,7 +66,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['values']
 
-(schema.org) Thing > Quantity > Gidouille # guid
+(schema.org) Class > Gidouille # guid
 - additionalType
 - alternateName
 - description
@@ -79,7 +79,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['guids']
 
-(schema.org) Thing > Quantity > Object # syz
+(schema.org) Class > Object # syz
 - additionalType
 - alternateName
 - description
@@ -92,7 +92,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['objects']
 
-(schema.org) Thing > Quantity > Assertion # pata http://www.pataphor.com/whatisapataphor.html#ex1
+(schema.org) Class > Assertion # pata http://www.pataphor.com/whatisapataphor.html#ex1
 - additionalType
 - alternateName
 - description
@@ -105,7 +105,7 @@ $ schemas show Identity # See interchangeability in HTML5 semantics: https://sch
 
     data[0]['assertions']
 
-(schema.org) Thing > Quantity > Datum # anom
+(schema.org) Class > Datum # anom
 - additionalType
 - alternateName
 - description
