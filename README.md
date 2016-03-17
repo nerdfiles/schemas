@@ -164,5 +164,5 @@ var station2 = new schemaorg.TrainTrip({
 Sentential operations can be expressed in Openchain’s [Alias][0] scheme.
 
 [0]: https://docs.openchain.org/en/latest/ledger-rules/general.html#aliases-aka-name
-[urlview]: http://urlview.com
-[percol]: http://percol.com
+[urlview]: http://linuxcommand.org/man_pages/urlview1.html
+[percol]: https://github.com/mooz/percol
