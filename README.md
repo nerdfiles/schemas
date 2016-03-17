@@ -36,13 +36,13 @@ $ schemas search Music
 
 #### [urlview][urlview]
 
-![https://raw.githubusercontent.com/nerdfiles/schemas/master/img/urlview.png](urlview)
+![urlview](https://raw.githubusercontent.com/nerdfiles/schemas/master/img/urlview.png)
 
 #### [percol][percol]
 
-![https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol.png](percol)
+![percol](https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol.png)
 
-![https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol-q.png](percol-q)
+![percol-q](https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol-q.png)
 
 ## Ideal usage as a CLI tool
 ```bash 
