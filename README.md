@@ -32,6 +32,18 @@ $ schemas search Music
 ]
 ```
 
+### Screens
+
+#### [urlview][urlview]
+
+![https://raw.githubusercontent.com/nerdfiles/schemas/master/img/urlview.png](urlview)
+
+#### [percol][percol]
+
+![https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol.png](percol)
+
+![https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol-q.png](percol-q)
+
 ## Ideal usage as a CLI tool
 ```bash 
 $ schemas search T
@@ -152,3 +164,5 @@ var station2 = new schemaorg.TrainTrip({
 Sentential operations can be expressed in Openchain’s [Alias][0] scheme.
 
 [0]: https://docs.openchain.org/en/latest/ledger-rules/general.html#aliases-aka-name
+[urlview]: http://urlview.com
+[percol]: http://percol.com
