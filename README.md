@@ -159,9 +159,43 @@ var station2 = new schemaorg.TrainTrip({
 
 ## Future goals
 
+### Asset Managed Schemas
+
     $ cliprogram [WebPage] /with/ [breadcrumb] (and) [AboutPage]
 
 Sentential operations can be expressed in Openchain’s [Alias][0] scheme.
+
+### Generators for Schemas
+
+Scrape canonical microdata snippets to generate in a Yeoman-style way:
+
+    https://schema.org/SearchAction
+
+For instance:
+
+    <div itemscope itemtype="http://schema.org/WebSite">
+        <link
+          itemprop="url"
+          href="http://www.example.com/"
+        />
+        <form 
+          itemprop="potentialAction"
+          itemscope 
+          itemtype="http://schema.org/SearchAction"
+        >
+            <meta
+                itemprop="target" 
+                content="http://example.com/search?q={query}"
+            />
+            <input
+              itemprop="query-input"
+              type="text" name="query"
+            />
+            <input type="submit"/>
+        </form>
+    </div>
+
+Scaffold with Angular Material Design components/skins, etc.
 
 [0]: https://docs.openchain.org/en/latest/ledger-rules/general.html#aliases-aka-name
 [urlview]: http://linuxcommand.org/man_pages/urlview1.html
