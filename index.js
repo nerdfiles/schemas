@@ -1,14 +1,22 @@
+/**(
+ * @fileOverview ./index.js
+ * @description
+ * Schema.org searcher.
+ * )
+ */
+
 var request = require('request');
 var cheerio = require('cheerio');
 var docopt = require('docopt-js');
+var _ = require('lodash')
 
-function docParser (f) {
+function __parser__ (f) {
   return f.toString().
     replace(/^[^\/]+\/\*!?/, '').
     replace(/\*\/[^\/]+$/, '');
 }
 
-var doc = docParser(function() {/*!
+var doc = __parser__ (function() {/*!
 Usage:
   schemas search <term> [--timeout=<seconds>]
   schemas show <concept> [--timeout=<seconds>]
@@ -37,23 +45,24 @@ function retrieve (config) {
   };
   var opts = config || defaultOpts;
 
-  return request('http://schema.org/docs/schema_org_rdfa.html', function (error, response, html) {
+  return request('http://localhost:8000/rdfa.html', function (error, response, html) {
     if (!error && response.statusCode == 200) {
       var $ = cheerio.load(html);
-      var parsedResults = [];
+      var schemaResults = {};
 
       $('a[property="rdfs:subClassOf"]').each(function(i, element){
+
         var a = $(this);
         var rdfsSubclassOf = a.parent().parent();
         var rdfsSubclassOf_Title = a.text();
         var rdfsSubclassOf_Url = a.attr('href');
-        var rdfsClass = a.parent().parent().children('.h').text();
+        var rdfsClass = rdfsSubclassOf.children('.h').text();
         if (opts.search && rdfsClass.indexOf(opts['<term>']) !== -1) {
 
         } else {
           return;
         }
-        var rdfsComment = rdfsSubclassOf.eq(2).text();
+        var rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]').text();
         var metadata = {
           rdfsClass   : rdfsClass,
           rdfsComment : rdfsComment,
@@ -62,9 +71,12 @@ function retrieve (config) {
             url   : rdfsSubclassOf_Url
           }
         };
-        parsedResults.push(metadata);
+        schemaResults["$" + rdfsClass] = metadata;
       });
-      console.log(parsedResults);
+
+      jsonSchemaResults = JSON.stringify(schemaResults);
+      console.log(jsonSchemaResults);
+
     }
   });
 

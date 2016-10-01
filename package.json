@@ -28,6 +28,7 @@
   "homepage": "https://github.com/nerdfiles/schemas",
   "dependencies": {
     "cheerio": "^0.20.0",
+    "lodash": "^4.16.2",
     "nomnom": "^1.8.1",
     "request": "^2.48.0"
   },
