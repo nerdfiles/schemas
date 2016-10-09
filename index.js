@@ -5,32 +5,36 @@
  * )
  */
 
-var request = require('request');
-var cheerio = require('cheerio');
-var docopt = require('docopt-js');
-var _ = require('lodash')
+"use strict"
+
+let request = require('request')
+let cheerio = require('cheerio')
+let docopt = require('docopt-js')
+let _ = require('lodash')
 
 function __parser__ (f) {
   return f.toString().
     replace(/^[^\/]+\/\*!?/, '').
-    replace(/\*\/[^\/]+$/, '');
+    replace(/\*\/[^\/]+$/, '')
 }
 
-var doc = __parser__ (function() {/*!
+let doc = __parser__ (function() {/*!
 Usage:
   schemas search <term> [--timeout=<seconds>]
   schemas show <concept> [--timeout=<seconds>]
   schemas add <schema_url>
   schemas generate <schema>
   schemas -h | --help | --version
-*/});
+*/})
+
+let initConfig = docopt.docopt(doc, { version: '0.0.1' })
 
 function retrieve (config) {
   /**
    * @see http://schema.org/docs/schema_org_rdfa.html (Reflection)
    * @see http://schema.rdfs.org/all.json [Unavailable]
    */
-  var defaultOpts = {
+  let defaultOpts = {
     'search'       : false,
     '<term>'       : null,
     'show'         : false,
@@ -42,49 +46,48 @@ function retrieve (config) {
     '-h'           : false,
     '--help'       : false,
     '--version'    : false
-  };
-  var opts = config || defaultOpts;
+  }
+  let opts = config || defaultOpts
 
   return request('http://localhost:8000/rdfa.html', function (error, response, html) {
     if (!error && response.statusCode == 200) {
-      var $ = cheerio.load(html);
-      var schemaResults = {};
+      let $ = cheerio.load(html)
+      let schemaResults = {}
 
       $('a[property="rdfs:subClassOf"]').each(function(i, element){
 
-        var a = $(this);
-        var rdfsSubclassOf = a.parent().parent();
-        var rdfsSubclassOf_Title = a.text();
-        var rdfsSubclassOf_Url = a.attr('href');
-        var rdfsClass = rdfsSubclassOf.children('.h').text();
+        let a = $(this)
+        let rdfsSubclassOf = a.parent().parent()
+        let rdfsSubclassOf_Title = a.text()
+        let rdfsSubclassOf_Url = a.attr('href')
+        let rdfsClass = rdfsSubclassOf.children('.h').text()
         if (opts.search && rdfsClass.indexOf(opts['<term>']) !== -1) {
-
         } else {
-          return;
+          return
         }
-        var rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]').text();
-        var metadata = {
+        let rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]')
+        let metadata = {
           rdfsClass   : rdfsClass,
-          rdfsComment : rdfsComment,
+          rdfsComment : rdfsComment.text(),
           rdfsSubClassOf : {
             title : rdfsSubclassOf_Title,
             url   : rdfsSubclassOf_Url
           }
-        };
-        schemaResults["$" + rdfsClass] = metadata;
-      });
+        }
+        schemaResults["$" + rdfsClass] = metadata
+      })
 
-      jsonSchemaResults = JSON.stringify(schemaResults);
-      console.log(jsonSchemaResults);
+      let jsonSchemaResults = JSON.stringify(schemaResults)
+      console.log(jsonSchemaResults)
+      //retrieve(initConfig)
 
     }
-  });
+  })
 
 }
 
 function init () {
-  var initConfig = docopt.docopt(doc, { version: '0.0.1' });
-  retrieve(initConfig);
+  retrieve(initConfig)
 }
 
-init();
+init()
