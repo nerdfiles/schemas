@@ -41,6 +41,12 @@ $ schemas search Music
 
 ![percol-q](https://raw.githubusercontent.com/nerdfiles/schemas/master/img/percol-q.png)
 
+### percol with [jq]
+
+```bash 
+$ echo $(schemas search Music) | jq '.' | percol
+```
+
 ## Ideal usage as a CLI tool
 ```bash 
 $ schemas search T
@@ -197,3 +203,4 @@ Scaffold with Angular Material Design components/skins, etc.
 [0]: https://docs.openchain.org/en/latest/ledger-rules/general.html#aliases-aka-name
 [urlview]: http://linuxcommand.org/man_pages/urlview1.html
 [percol]: https://github.com/mooz/percol
+[jq]: https://stedolan.github.io/jq/
