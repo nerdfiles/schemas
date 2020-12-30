@@ -1,5 +1,11 @@
 # Schemas
 
+Try: 
+
+```
+node bin/schemas.js show https://staging.emscharts.com/dba/meta.cfm | less [or percol] # assuming $ brew install percol
+```
+
 Javascript library and command-line tool to rock Schemas.
 
 ## The idea
