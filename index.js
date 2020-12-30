@@ -1,36 +1,33 @@
-/**(
+/**
  * @fileOverview ./index.js
  * @description
  * Schema.org searcher.
- * )
  */
 
-"use strict"
+let got = require('got');
+let cheerio = require('cheerio');
+let docopt = require('docopt');
+// let _ = require('lodash');
 
+(async function () {
+  function __parser__ (f) {
+    return f.toString()
+      .replace(/^[^\/]+\/\*!?/, '')
+      .replace(/\*\/[^\/]+$/, '');
+  }
 
-let got = require('got')
-let cheerio = require('cheerio')
-let docopt = require('docopt-js')
-let _ = require('lodash')
+  let doc = __parser__ (function() {/*!
+  Usage:
+    schemas search <term> [--timeout=<seconds>]
+    schemas show <concept> [--timeout=<seconds>]
+    schemas add <schema_url>
+    schemas generate <schema>
+    schemas -h | --help | --version
+  */});
 
-function __parser__ (f) {
-  return f.toString().
-    replace(/^[^\/]+\/\*!?/, '').
-    replace(/\*\/[^\/]+$/, '')
-}
+  let initConfig = docopt.docopt(doc, { version: '0.1.1rc' });
+  console.log({initConfig});
 
-let doc = __parser__ (function() {/*!
-Usage:
-  schemas search <term> [--timeout=<seconds>]
-  schemas show <concept> [--timeout=<seconds>]
-  schemas add <schema_url>
-  schemas generate <schema>
-  schemas -h | --help | --version
-*/})
-
-let initConfig = docopt.docopt(doc, { version: '0.0.1' })
-
-function retrieve (config) {
   /**
    * @see http://schema.org/docs/schema_org_rdfa.html (Reflection)
    * @see http://schema.rdfs.org/all.json [Unavailable]
@@ -48,28 +45,39 @@ function retrieve (config) {
     '--help'       : false,
     '--version'    : false
   }
-  let opts = config || defaultOpts
+  let opts = initConfig || defaultOpts;
 
-  var url = 'http://localhost:8000/rdfa.html'
+  var url = 'http://localhost:8000/rdfa.html';
   url = 'https://staging.emscharts.com/dba/meta.cfm';
+  url = 'https://schema.org/docs/schemas.html';
+  if (opts && opts['<concept>']) {
+    url = opts['<concept>'];
+  }
 
-  return got(url, function (error, response, html) {
-    if (!error && response.statusCode == 200) {
-      let $ = cheerio.load(html)
-      let schemaResults = {}
+  var res;
+  try {
+    res = await got(url);
 
-      $('a[property="rdfs:subClassOf"]').each(function(i, element){
+    if (res.body) {
+      var html = res.body;
+      let $ = cheerio.load(html);
+      let schemaResults = {};
 
-        let a = $(this)
-        let rdfsSubclassOf = a.parent().parent()
-        let rdfsSubclassOf_Title = a.text()
-        let rdfsSubclassOf_Url = a.attr('href')
-        let rdfsClass = rdfsSubclassOf.children('.h').text()
-        if (opts.search && rdfsClass.indexOf(opts['<term>']) !== -1) {
+      $('a[property="rdfs:subClassOf"]').each(function (i, element) {
+        console.log(element);
+        console.log({i});
+
+        let a = $(this);
+        let rdfsSubclassOf = a.parent().parent();
+        let rdfsSubclassOf_Title = a.text();
+        let rdfsSubclassOf_Url = a.attr('href');
+        let rdfsClass = rdfsSubclassOf.children('.h').text();
+        if (opts.search && rdfsClass.includes(opts['<term>'])) {
+          console.log(rdfsClass);
         } else {
-          return
+          return console.error(res);
         }
-        let rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]')
+        let rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]');
         let metadata = {
           rdfsClass   : rdfsClass,
           rdfsComment : rdfsComment.text(),
@@ -77,21 +85,18 @@ function retrieve (config) {
             title : rdfsSubclassOf_Title,
             url   : rdfsSubclassOf_Url
           }
-        }
-        schemaResults["$" + rdfsClass] = metadata
+        };
+        schemaResults["$" + rdfsClass] = metadata;
       })
 
-      let jsonSchemaResults = JSON.stringify(schemaResults)
-      console.log(jsonSchemaResults)
-      //retrieve(initConfig)
-
+      console.log(html);
+      let jsonSchemaResults = JSON.stringify(schemaResults);
+      console.log('------------');
+      console.log(jsonSchemaResults);
+      console.log('------------');
     }
-  })
+  } catch (e) {
+    console.log(e);
+  }
+})();
 
-}
-
-function init () {
-  retrieve(initConfig)
-}
-
-init()
