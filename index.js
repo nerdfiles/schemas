@@ -7,7 +7,8 @@
 
 "use strict"
 
-let request = require('request')
+
+let got = require('got')
 let cheerio = require('cheerio')
 let docopt = require('docopt-js')
 let _ = require('lodash')
@@ -49,7 +50,10 @@ function retrieve (config) {
   }
   let opts = config || defaultOpts
 
-  return request('http://localhost:8000/rdfa.html', function (error, response, html) {
+  var url = 'http://localhost:8000/rdfa.html'
+  url = 'https://staging.emscharts.com/dba/meta.cfm';
+
+  return got(url, function (error, response, html) {
     if (!error && response.statusCode == 200) {
       let $ = cheerio.load(html)
       let schemaResults = {}
