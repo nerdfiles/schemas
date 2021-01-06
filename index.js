@@ -12,10 +12,60 @@ let _ = require('lodash');
 let chalk = require('chalk');
 
 (async function () {
+  let schemaResults = {};
+  let zollResults = {};
+
   function __parser__ (f) {
     return f.toString()
       .replace(/^[^\/]+\/\*!?/, '')
       .replace(/\*\/[^\/]+$/, '');
+  }
+
+  function zoll () {
+    var list = []
+    $('td').each(function (i, element) {
+      var td = $(this);
+      var metadata = {
+        td: td
+      };
+      zollResults['foundalink'] = metadata;
+      try {
+        let jsonZollResults = JSON.stringify(zollResults);
+      } catch (e) {
+        console.error(e);
+      }
+      console.log(chalk.blue(jsonZollResults));
+      list.push(jsonZollResults);
+    })
+    console.log(list && list.length ? list[0] : []);
+    return list && list.length ? list[0] : [];
+  }
+
+  function schema_org () {
+    $('a[property="rdfs:subClassOf"]').each(function (i, element) {
+      let a = $(this);
+      let rdfsSubclassOf = a.parent().parent();
+      let rdfsSubclassOf_Title = a.text();
+      let rdfsSubclassOf_Url = a.attr('href');
+      let rdfsClass = rdfsSubclassOf.children('.h').text();
+      if (opts.search && rdfsClass.includes(opts['<term>'])) {
+        console.log(rdfsClass);
+      } else {
+        return console.error(res);
+      }
+      let rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]');
+      let metadata = {
+        rdfsClass   : rdfsClass,
+        rdfsComment : rdfsComment.text(),
+        rdfsSubClassOf : {
+          title : rdfsSubclassOf_Title,
+          url   : rdfsSubclassOf_Url
+        }
+      };
+      schemaResults["$" + rdfsClass] = metadata;
+      let jsonSchemaResults = JSON.stringify(schemaResults);
+      console.log(chalk.blue(jsonSchemaResults));
+    })
   }
 
   let doc = __parser__ (function() {/*!
@@ -28,7 +78,6 @@ let chalk = require('chalk');
   */});
 
   let initConfig = docopt.docopt(doc, { version: '0.1.1rc' });
-  console.log({initConfig});
 
   /**
    * @see http://schema.org/docs/schema_org_rdfa.html (Reflection)
@@ -54,80 +103,42 @@ let chalk = require('chalk');
   url = 'https://schema.org/docs/schemas.html';
   if (opts && opts['<concept>']) {
     url = opts['<concept>'];
+    console.log(':', url);
   }
 
   var res;
   let $;
+
   try {
     res = await got(url);
 
     if (res.body) {
       var html = res.body;
       $ = cheerio.load(html);
-      let schemaResults = {};
-      let zollResults = {};
+      var z = html.split(' ');
+      var ensemble;
+      var script;
 
-      if (html.includes('schema.org')) {
-        schema_org();
-      } else {
+      ensemble = z.some(function (lineRef) {
+        return lineRef.indexOf('zollonline.com') !== -1;
+      });
+      console.log(ensemble && ensemble.length ? ensemble[0] : []);
+
+      script = z.filter(function (lineRef) {
+        return lineRef.includes('script');
+      });
+      console.log(script);
+
+      console.log(typeof html);
+      if (z && z.length) {
         zoll();
+      } else {
+        schema_org();
       }
-      console.log(chalk.green(html));
-      let jsonSchemaResults = JSON.stringify(schemaResults);
-      console.log(chalk.blue(jsonSchemaResults));
+      console.log('END');
     }
   } catch (e) {
     console.log(e);
-  }
-
-  function zoll () {
-    $('a[property="rdfs:subClassOf"]').each(function (i, element) {
-      let a = $(this);
-      let rdfsSubclassOf = a.parent().parent();
-      let rdfsSubclassOf_Title = a.text();
-      let rdfsSubclassOf_Url = a.attr('href');
-      let rdfsClass = rdfsSubclassOf.children('.h').text();
-      if (opts.search && rdfsClass.includes(opts['<term>'])) {
-        console.log(rdfsClass);
-      } else {
-        return console.error(res);
-      }
-      let rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]');
-      let metadata = {
-        rdfsClass   : rdfsClass,
-        rdfsComment : rdfsComment.text(),
-        rdfsSubClassOf : {
-          title : rdfsSubclassOf_Title,
-          url   : rdfsSubclassOf_Url
-        }
-      };
-      schemaResults["$" + rdfsClass] = metadata;
-    })
-  }
-
-  function schema_org () {
-    $('a[property="rdfs:subClassOf"]').each(function (i, element) {
-      let a = $(this);
-      let rdfsSubclassOf = a.parent().parent();
-      let rdfsSubclassOf_Title = a.text();
-      let rdfsSubclassOf_Url = a.attr('href');
-      let rdfsClass = rdfsSubclassOf.children('.h').text();
-      if (opts.search && rdfsClass.includes(opts['<term>'])) {
-        console.log(rdfsClass);
-      } else {
-        return console.error(res);
-      }
-      let rdfsComment = rdfsSubclassOf.children('[property="rdfs:comment"]');
-      let metadata = {
-        rdfsClass   : rdfsClass,
-        rdfsComment : rdfsComment.text(),
-        rdfsSubClassOf : {
-          title : rdfsSubclassOf_Title,
-          url   : rdfsSubclassOf_Url
-        }
-      };
-      schemaResults["$" + rdfsClass] = metadata;
-    })
   }
 })();
 
