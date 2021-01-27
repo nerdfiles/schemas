@@ -38,7 +38,6 @@ let chalk = require('chalk');
       list.push(jsonZollResults);
     })
     console.log(list && list.length ? list[0] : []);
-    return list && list.length ? list[0] : [];
   }
 
   function schema_org () {
@@ -66,6 +65,12 @@ let chalk = require('chalk');
       let jsonSchemaResults = JSON.stringify(schemaResults);
       console.log(chalk.blue(jsonSchemaResults));
     })
+  }
+
+  function __init__ (element) {
+    return function (lineRef) {
+      return lineRef && lineRef.includes(element);
+    }
   }
 
   let doc = __parser__ (function() {/*!
@@ -118,23 +123,33 @@ let chalk = require('chalk');
       var z = html.split(' ');
       var ensemble;
       var script;
+      var div;
 
-      ensemble = z.some(function (lineRef) {
-        return lineRef.indexOf('zollonline.com') !== -1;
-      });
-      console.log(ensemble && ensemble.length ? ensemble[0] : []);
+      var DOCTYPE = /DOCTYPE (\w+)/.test(z.join(' '));
+      console.log(z.join(' ').match(/DOCTYPE (\w+)/));
+      var init = function (__type) {
+        console.log(__type);
+        var dict = {
+          'DOCTYPE html': function () {
+            return function () {
+              return 'modern html';
+            }
+          }
+        };
+        return dict[__type]();
+      };
+      var s = init(DOCTYPE);
+      console.log(s());
 
-      div = z.filter(function (lineRef) {
-        return lineRef.includes('div');
-      });
-      console.log(div);
+      ensemble = z.some(__init__('zollonline.com'));
+      console.log('found zollonline', ensemble && ensemble.length ? ensemble : []);
 
-      script = z.filter(function (lineRef) {
-        return lineRef.includes('script');
-      });
-      console.log(script);
+      div = z.some(__init__('div'));
+      console.log('found div\'s', div);
 
-      console.log(typeof html);
+      script = z.some(__init__('script'));
+      console.log('found scripts', script);
+
       if (z && z.length) {
         zoll();
       } else {
