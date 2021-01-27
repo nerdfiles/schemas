@@ -124,6 +124,11 @@ let chalk = require('chalk');
       });
       console.log(ensemble && ensemble.length ? ensemble[0] : []);
 
+      div = z.filter(function (lineRef) {
+        return lineRef.includes('div');
+      });
+      console.log(div);
+
       script = z.filter(function (lineRef) {
         return lineRef.includes('script');
       });
